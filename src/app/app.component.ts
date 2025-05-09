@@ -1,11 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CustomInputComponent } from './component/custom-input/custom-input.component';
+import { CustomInputComponent } from './components/custom-input.component';
 
 @Component({
   selector: 'app-root',
   imports: [
-    CustomInputComponent,
     CustomInputComponent,
     ReactiveFormsModule
   ],
