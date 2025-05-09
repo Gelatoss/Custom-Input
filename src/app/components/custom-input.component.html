@@ -1,0 +1,66 @@
+<div
+    class="input-wrapper"
+    [ngClass]="[
+        'variant-' + variant,
+        isFocused ? 'focused' : '',
+        value ? 'has-value' : '',
+        readonly ? 'readonly' : '',
+        focusEffect ? 'focus-effect-' + focusEffect : ''
+    ]"
+    (click)="handleWrapperClick()"
+>
+    <label class="label-input">{{ label }}</label>
+    <div 
+        class="input-container"
+        [style.width]="getInputWidth()"
+        (click)="handleInputClick()"    
+    >
+        <input
+            #input
+            class="value-input"
+            [ngClass]="{
+                'icon-input' : type === 'password' || type === 'list',
+            }"
+            [type]="inputType"
+            [value]="value"
+            [placeholder]="showPlaceholder ? placeholder : ''"
+            (input)="onInputChange($event)"
+            (blur)="onBlur()"
+            (focus)="onFocus()"
+        >
+        @if (type === 'password') {
+            <mat-icon
+                class="password-toggle"
+                [ngClass]="{ 'disabled-icon' : isDisabled }"
+                (click)="!isDisabled && togglePassword()"
+            >
+                {{ showPassword() ? 'visibility_off' : 'visibility' }}
+            </mat-icon>
+        }
+        @if (type === 'list') {
+            <mat-icon
+                class="dropdown-toggle"
+                [ngClass]="{ 'disabled-icon' : isDisabled }"
+            >
+                {{ showDropdown() ? 'expand_less' : 'expand_more' }}
+            </mat-icon>
+            @if (showDropdown()) {
+                <div 
+                    #dropdown 
+                    class="dropdown-list"
+                >
+                    @for (option of options; track $index) {
+                        <div class="dropdown-item" (click)="selectOption(option, $event)">{{ option }}</div>
+                    }
+                    <div 
+                        class="dropdown-item"
+                        [ngClass]="{ 'is-empty' : this.value === '' || this.value === null }"
+                        (click)="(this.value !== '' || this.value !== null) && clearOption($event)"
+                    >
+                        Clear...
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
