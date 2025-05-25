@@ -1,0 +1,81 @@
+<div
+    class="input-wrapper"
+    [class.disabled]="disabled"
+    [ngClass]="[
+        'variant-' + variant,
+        isFocused ? 'focused' : '',
+        value ? 'has-value' : '',
+        readonly ? 'readonly' : '',
+        focusEffect ? 'focus-effect-' + focusEffect : '',
+        errorState ? 'invalid' : ''
+    ]"
+    (focusin)="onFocusIn($event)"
+    (focusout)="onFocusOut($event)"
+    (click)="handleWrapperClick()"
+>
+    <label 
+        class="label-input"
+        [class.disabled]="disabled"    
+    >
+        {{ label }}
+        @if (required) {
+            <span class="required-star">*</span>
+        }
+    </label>
+    <div 
+        class="input-container"
+        [style.width]="getInputWidth()"
+        (click)="handleInputClick()"    
+    >
+        <input
+            #input
+            class="value-input"
+            [ngClass]="{
+                'icon-input' : type === 'password' || type === 'list',
+            }"
+            [type]="inputType"
+            [value]="value"
+            [disabled]="disabled"
+            [placeholder]="showPlaceholder ? placeholder : ''"
+            (input)="onInputChange($event)"
+        >
+        @if (type === 'password') {
+            <mat-icon
+                class="password-toggle"
+                [class.disabled]="disabled"   
+                [ngClass]="{ 'disabled-icon' : disabled }"
+                (click)="!disabled && togglePassword()"
+            >
+                {{ showPassword() ? 'visibility_off' : 'visibility' }}
+            </mat-icon>
+        }
+        @if (type === 'list') {
+            <mat-icon
+                class="dropdown-toggle"
+                [class.disabled]="disabled"   
+                [ngClass]="{ 'disabled-icon' : disabled }"
+            >
+                {{ disabled ? 'expand_more' : (showDropdown() ? 'expand_less' : 'expand_more') }}
+            </mat-icon>
+            @if (!disabled && showDropdown()) {
+                <div 
+                    #dropdown 
+                    class="dropdown-list"
+                >
+                    @for (option of options; track $index) {
+                        <div class="dropdown-item" (click)="selectOption(option, $event)">{{ option }}</div>
+                    }
+                    @if (showClearOption) {
+                        <div 
+                            class="dropdown-item"
+                            [ngClass]="{ 'is-empty' : empty }"
+                            (click)="(this.value !== '' || this.value !== null) && clearOption($event)"
+                        >
+                            Clear...
+                        </div>
+                    }
+                </div>
+            }
+        }
+    </div>
+</div>

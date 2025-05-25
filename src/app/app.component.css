@@ -1,0 +1,33 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+}
+
+.component,
+.inputs {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+    padding: 20px;
+}
+
+.component {
+    border: 1px solid #ccc;
+}
+
+.inputs-group {
+    display: flex;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+button {
+    width: 100px;
+}
